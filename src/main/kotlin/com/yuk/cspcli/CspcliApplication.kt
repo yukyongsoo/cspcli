@@ -1,6 +1,5 @@
 package com.yuk.cspcli
 
-import jdk.nashorn.internal.runtime.linker.Bootstrap
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
