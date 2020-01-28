@@ -2,6 +2,8 @@ package com.yuk.cspcli
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.yuk.cspcli.shell.helper.ShellHelper
+import org.jline.terminal.Terminal
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStyle
 import org.springframework.context.annotation.Bean
@@ -14,7 +16,7 @@ class CliConfig {
     @Bean
     fun getPromptProvider(): PromptProvider? {
         return PromptProvider {
-            AttributedString("CSP:>",
+            AttributedString("CSP :>",
                     AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE))
         }
     }
