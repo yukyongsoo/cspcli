@@ -1,20 +1,21 @@
 package com.yuk.cspcli;
 
+import com.yuk.cspcli.api.HttpComponent;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.HashMap;
 
 @Component
 @Profile("default")
 public class DiscardLoginComponent implements LoginComponent {
-    private RestTemplate restTemplate;
+    private final HttpComponent httpComponent;
     private String token = "";
 
-    DiscardLoginComponent(RestTemplate restTemplate){
-        this.restTemplate = restTemplate;
+    DiscardLoginComponent(HttpComponent httpComponent) {
+        this.httpComponent = httpComponent;
     }
 
     @NotNull
@@ -25,10 +26,7 @@ public class DiscardLoginComponent implements LoginComponent {
 
     @Override
     public void login(@NotNull String ip, int port, @NotNull String id, @NotNull String password) {
-        URI uri = URI.create(ip + ":" + port);
         Login login = new Login(id, password);
-        token = restTemplate.postForObject(uri,login,String.class);
+        token = httpComponent.postDataSendingAndGet("",login,String.class, new HashMap<>());
     }
-
-
 }

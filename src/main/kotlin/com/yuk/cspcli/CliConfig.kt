@@ -1,12 +1,12 @@
 package com.yuk.cspcli
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStyle
-import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.shell.jline.PromptProvider
-import org.springframework.web.client.RestTemplate
 
 
 @Configuration
@@ -20,7 +20,9 @@ class CliConfig {
     }
 
     @Bean
-    fun getRestTemplate() : RestTemplate{
-        return RestTemplateBuilder().build()
+    fun getObjectMapper(): ObjectMapper {
+        return ObjectMapper().apply {
+            registerModule(KotlinModule())
+        }
     }
 }
