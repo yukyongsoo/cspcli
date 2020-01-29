@@ -2,7 +2,9 @@ package com.yuk.cspcli
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.yuk.cspcli.shell.helper.InputHelper
 import com.yuk.cspcli.shell.helper.ShellHelper
+import org.jline.reader.LineReader
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStyle
@@ -30,7 +32,12 @@ class CliConfig {
     }
 
     @Bean
-    fun shellHelper(@Lazy terminal: Terminal): ShellHelper {
+    fun getShellHelper(@Lazy terminal: Terminal): ShellHelper {
         return ShellHelper(terminal)
+    }
+
+    @Bean
+    fun getInputReader(@Lazy lineReader: LineReader): InputHelper {
+        return InputHelper(lineReader)
     }
 }
