@@ -8,13 +8,14 @@ import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStyle
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Lazy
 import org.springframework.shell.jline.PromptProvider
 
 
 @Configuration
 class CliConfig {
     @Bean
-    fun getPromptProvider(): PromptProvider? {
+    fun getPromptProvider(): PromptProvider {
         return PromptProvider {
             AttributedString("CSP :>",
                     AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE))
@@ -26,5 +27,10 @@ class CliConfig {
         return ObjectMapper().apply {
             registerModule(KotlinModule())
         }
+    }
+
+    @Bean
+    fun shellHelper(@Lazy terminal: Terminal): ShellHelper {
+        return ShellHelper(terminal)
     }
 }

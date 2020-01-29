@@ -27,6 +27,6 @@ public class DiscardLoginComponent implements LoginComponent {
     @Override
     public void login(@NotNull String ip, int port, @NotNull String id, @NotNull String password) {
         Login login = new Login(id, password);
-        token = httpComponent.postDataSendingAndGet("",login,String.class, new HashMap<>());
+        token = httpComponent.postDataSendingAndGet("/login",login,String.class, new HashMap<>());
     }
 }

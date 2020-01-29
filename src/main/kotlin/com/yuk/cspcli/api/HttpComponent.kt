@@ -5,6 +5,7 @@ import org.apache.http.client.methods.*
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
+import org.apache.http.util.EntityUtils
 import org.springframework.stereotype.Component
 
 
@@ -51,12 +52,14 @@ class HttpComponent(private val objectMapper: ObjectMapper) {
 
     private fun <T> basicDataSendingAndGet(httpRequest: HttpEntityEnclosingRequestBase, sendingData: Any,
                                            returnType: Class<T>, headers: Map<String, String> = mapOf()): T {
-        val json = objectMapper.writeValueAsString(sendingData)
-        httpRequest.entity = StringEntity(json, ContentType.APPLICATION_JSON)
+        val requestJson = objectMapper.writeValueAsString(sendingData)
+        httpRequest.entity = StringEntity(requestJson, ContentType.APPLICATION_JSON)
         headers.forEach { (t, u) -> httpRequest.addHeader(t, u) }
         val response = client.execute(httpRequest)
-        val stream = response.entity.content
-        return objectMapper.readValue(stream, returnType)
+        val responseJson = EntityUtils.toString(response.entity)
+        if(responseJson.isBlank())
+            return "" as T
+        return objectMapper.readValue(responseJson, returnType)
     }
 
     private fun basicDataSending(httpRequest: HttpEntityEnclosingRequestBase, sendingData: Any,
@@ -70,8 +73,10 @@ class HttpComponent(private val objectMapper: ObjectMapper) {
     private fun <T> basicDataGet(httpRequest: HttpRequestBase, returnType: Class<T>, headers: Map<String, String>): T {
         headers.forEach { (t, u) -> httpRequest.addHeader(t, u) }
         val response = client.execute(httpRequest)
-        val stream = response.entity.content
-        return objectMapper.readValue(stream, returnType)
+        val responseJson = EntityUtils.toString(response.entity)
+        if(responseJson.isBlank())
+            return "" as T
+        return objectMapper.readValue(responseJson, returnType)
     }
 
     private fun basicSend(httpRequest: HttpRequestBase , headers: Map<String, String>) {

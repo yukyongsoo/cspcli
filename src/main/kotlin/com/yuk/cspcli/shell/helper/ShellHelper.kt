@@ -5,7 +5,6 @@ import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import org.springframework.stereotype.Component
 
-@Component
 class ShellHelper(private val terminal: Terminal) {
     private fun getColored(message: String, color: PromptColor) =
             AttributedStringBuilder().append(message, AttributedStyle.DEFAULT.foreground(color.value)).toAnsi()
