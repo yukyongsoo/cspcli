@@ -4,8 +4,7 @@ import com.yuk.cspcli.LoginComponent
 import org.springframework.stereotype.Component
 
 @Component
-class CommonApi(private val errorComponent: ErrorComponent,
-                private val loginComponent: LoginComponent,
+class CommonApi(private val loginComponent: LoginComponent,
                 private val httpComponent: HttpComponent) {
 
     fun login(ip: String, port: Int, id: String, password: String) {

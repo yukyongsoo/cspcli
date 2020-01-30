@@ -21,31 +21,18 @@ class StorageComponent(private val storageApi: StorageApi,
     @ShellMethod("show all storage", group = "storage", key = ["storage list"])
     @ShellMethodAvailability("connectCheck")
     fun showStorageList() {
+        shellHelper.printInfo("show all Storage List")
         val storageList = storageApi.showStorageList()
-        tableMaker.printTable(storageList, StorageDTO::class)
+        tableMaker.printListTable(storageList, StorageDTO::class)
     }
 
     @ShellMethod("add new storage", group = "storage", key = ["storage add"])
     @ShellMethodAvailability("connectCheck")
-    fun addStorageList() {
+    fun addStorage() {
         shellHelper.printInfo("add new storage")
         val name = inputHelper.prompt("please input storage Name")
-        if (name.isBlank()) {
-            shellHelper.printInfo("storage name can't be blank")
-            return
-        }
-
         val path = inputHelper.prompt("please input storage path")
-        if (path.isBlank()) {
-            shellHelper.printInfo("storage path can't be blank")
-            return
-        }
-
-        val type = inputHelper.prompt("storage Type => 1: disk 2: S3").toIntOrNull()
-                ?: run {
-                    shellHelper.printInfo("input is not integer number")
-                    return
-                }
+        val type = inputHelper.promptInt("storage Type => 1: disk 2: S3")
         val requestDto = when (type) {
             1 -> StorageRequestDto(name, path, StorageType.DISK)
             2 -> StorageRequestDto(name,path,StorageType.S3)
@@ -54,19 +41,16 @@ class StorageComponent(private val storageApi: StorageApi,
                 return
             }
         }
-
         storageApi.addStorage(requestDto)
+        shellHelper.printInfo("storage created")
     }
 
     @ShellMethod("delete storage", group = "storage", key = ["storage delete"])
     @ShellMethodAvailability("connectCheck")
-    fun deleteStorageList() {
+    fun deleteStorage() {
         shellHelper.printInfo("delete storage for existed")
-        val id = inputHelper.prompt("storage Id").toIntOrNull() ?: run {
-            shellHelper.printInfo("input is not integer number")
-            return
-        }
-
+        val id = inputHelper.promptInt("storage Id")
         storageApi.deleteStorage(id)
+        shellHelper.printInfo("storage deleted")
     }
 }

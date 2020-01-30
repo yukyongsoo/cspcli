@@ -3,7 +3,6 @@ package com.yuk.cspcli.shell.helper
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
-import org.springframework.stereotype.Component
 
 class ShellHelper(private val terminal: Terminal) {
     private fun getColored(message: String, color: PromptColor) =

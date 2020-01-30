@@ -37,7 +37,7 @@ class CliConfig {
     }
 
     @Bean
-    fun getInputReader(@Lazy lineReader: LineReader): InputHelper {
+    fun getInputHelper(@Lazy lineReader: LineReader): InputHelper {
         return InputHelper(lineReader)
     }
 }
